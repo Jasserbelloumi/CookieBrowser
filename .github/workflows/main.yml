@@ -9,15 +9,17 @@ jobs:
         with:
           java-version: '17'
           distribution: 'temurin'
-      
-      - name: Make Gradlew Executable
-        run: chmod +x gradlew
-        
-      - name: Build with Gradle Wrapper
-        run: ./gradlew assembleDebug --stacktrace
-        
+
+      - name: Generate Wrapper and Build
+        run: |
+          # توليد المحرك الأصلي داخل السيرفر
+          gradle wrapper --gradle-version 8.4
+          chmod +x gradlew
+          # تنظيف وبناء التطبيق
+          ./gradlew assembleDebug --stacktrace
+
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: CookieBrowser-V2
+          name: CookieBrowser-Final
           path: app/build/outputs/apk/debug/*.apk
